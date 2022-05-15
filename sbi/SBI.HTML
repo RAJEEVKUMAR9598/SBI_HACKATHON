@@ -1,0 +1,46 @@
+<!doctype html>
+	<head>
+    <link rel="stylesheet" href="hackfest.css">
+		
+		<title>PASSWORD TRACKING MODE ON</title>
+	</head>
+	<body>
+		<h2>VOICE TRACK...</h2>
+        <p>CLICK BELOW AND RECORDED YOUR VOICE FOR FILTERING...</p>
+        <p><button type="button" onclick="runSpeechRecognition()">Speech to Text</button> &nbsp; <span id="action"></span></p>
+        <div id="output" class="hide"></div>
+		<script>
+			
+		    function runSpeechRecognition() {
+		        
+		        var output = document.getElementById("output");
+		        
+		        var action = document.getElementById("action");
+          
+                var SpeechRecognition = SpeechRecognition || webkitSpeechRecognition;
+                var recognition = new SpeechRecognition();
+            
+              
+                recognition.onstart = function() {
+                    action.innerHTML = "<small> PLEASE SPEACK...</small>";
+                };
+                
+                recognition.onspeechend = function() {
+                    action.innerHTML = "<small>YOUR VOICE HAS BEEN RECORDED...</small>";
+                    recognition.stop();
+                }
+              
+            
+                recognition.onresult = function(event) {
+                    var transcript = event.results[0][0].transcript;
+                    var confidence = event.results[0][0].confidence;
+                    output.innerHTML = "<b>Text:</b> " + transcript + "<br/> <b>Confidence:</b> " + confidence*100+"%";
+                    output.classList.remove("hide");
+                };
+               recognition.start();
+             
+	        
+        }
+		</script>
+	</body>
+</html
